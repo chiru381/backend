@@ -26,6 +26,8 @@ const scrapbookRoutes = require('./routes/scrapbookRoutes')
 const calendarEventRoutes = require('./routes/calendarEventRoutes')
 const aboutUsRoutes = require('./routes/aboutUsRoutes')
 const exportBackupRoutes = require('./routes/exportBackupRoutes')
+const uploadRoutes = require("./routes/uploadRoutes");
+
 const errorHandler = require('./middleware/errorHandler')
 
 // MIDDLEWARES
@@ -36,7 +38,6 @@ app.use(express.urlencoded({ extended: true }))
 // STATIC FOLDER
 app.use('/uploads', express.static('uploads'))
 
-app.use(errorHandler)
 // DATABASE CONNECTION
 mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('MongoDB Connected'))
@@ -68,6 +69,9 @@ app.use('/api/scrapbooks', scrapbookRoutes)
 app.use('/api/calendar-events', calendarEventRoutes)
 app.use('/api/about-us', aboutUsRoutes)
 app.use('/api/backups', exportBackupRoutes)
+app.use("/api/upload", uploadRoutes);
+
+app.use(errorHandler)
 
 // SERVER
 const PORT = process.env.PORT || 5001
