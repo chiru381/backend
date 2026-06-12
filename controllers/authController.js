@@ -49,11 +49,7 @@ exports.register = async (req, res) => {
 
     // ================= HASH MPIN =================
 
-    let hashedMPIN = null
-
-    if (mpin) {
-      hashedMPIN = await bcrypt.hash(mpin, salt)
-    }
+    let plainMPIN = mpin || null
 
     // ================= CREATE USER =================
 
@@ -62,7 +58,7 @@ exports.register = async (req, res) => {
       email,
       mobile,
       password: hashedPassword,
-      mpin: hashedMPIN,
+      mpin: plainMPIN,
       fingerprintId,
       faceId,
       voiceId,
@@ -158,13 +154,7 @@ exports.loginWithMPIN = async (req, res) => {
       })
     }
 
-    // Compare mpin
-    const isMatch = await bcrypt.compare(
-      mpin,
-      user.mpin
-    )
-
-    if (!isMatch) {
+     if (user.mpin !== mpin) {
       return res.status(401).json({
         success: false,
         message: 'Invalid MPIN',
