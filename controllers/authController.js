@@ -173,6 +173,7 @@ exports.loginWithMPIN = async (req, res) => {
         name: user.name,
         email: user.email,
         mobile: user.mobile,
+        profileImage: user.profileImage,
       },
     })
   } catch (error) {
