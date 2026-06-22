@@ -1,9 +1,17 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
+const path = require('path')
 require('dotenv').config()
 
 const app = express()
+
+app.use(
+  '/uploads',
+  express.static(
+    path.join(__dirname, 'uploads')
+  )
+)
 
 // ROUTES
 const authRoutes = require('./routes/authRoutes')

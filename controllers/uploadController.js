@@ -1,5 +1,34 @@
 const Upload = require('../models/Upload')
+const Uploads = require('../models/Uploads')
 const cloudinary = require('../config/cloudinary')
+
+exports.uploadsFile = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: 'File is required'
+      })
+    }
+
+    const uploadData = await Uploads.create({
+      fileUrl: `/uploads/${req.file.filename}`,
+      fileName: req.file.filename,
+      fileType: req.file.mimetype
+    })
+
+    res.status(201).json({
+      success: true,
+      message: 'File uploaded successfully',
+      data: uploadData
+    })
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    })
+  }
+}
 
 // ================= UPLOAD FILE =================
 exports.uploadFile = async (req, res) => {

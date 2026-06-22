@@ -10,6 +10,14 @@ const upload = multer({
   storage
 })
 
+const uploads = require('../utils/multer')
+
+router.post(
+  '/uploads',
+  uploads.single('file'),
+  uploadController.uploadsFile
+)
+
 // ================= UPLOAD FILE =================
 router.post(
   '/',
